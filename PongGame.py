@@ -3,23 +3,24 @@
 
 #Built with turtle; module that allows basic graphics
 import turtle
-import winsound
-
+import pygame
+pygame.init()
+pygame.mixer.init()
+turtle.speed('fastest')
+turtle.tracer(0)
 window = turtle.Screen()
 window.title("Pong Game")
 window.bgcolor("black")
 window.setup(width=800, height=600)
 window.tracer(0)
 
-winsound.PlaySound('start.wav', winsound.SND_FILENAME)
+bounceSound = pygame.mixer.Sound('pythonPong/bounce.wav')
+scoreSound = pygame.mixer.Sound('pythonPong/score.wav')
+startSound = pygame.mixer.Sound('pythonPong/start.wav')
+paddleBounceSound = pygame.mixer.Sound('pythonPong/paddlebounce.wav')
 
+startSound.play()
 
-def playBounceSound():
-    winsound.PlaySound("bounce.wav", winsound.SND_FILENAME)
-def playScoreSound():
-    winsound.PlaySound("score.wav", winsound.SND_FILENAME)
-def playPaddleBounceSound():
-    winsound.PlaySound("paddlebounce.wav", winsound.SND_FILENAME)
 # score
 scoreA = 0
 scoreB = 0
@@ -114,25 +115,25 @@ while True:
         # sets the ball back to position 290 and reverses the ball
         ball.sety(290)
         ball.dy *= -1
-        playBounceSound()
+        bounceSound.play()
     if ball.ycor() < -290:
         ball.sety(-290)
         ball.dy *= -1
-        playBounceSound()
+        bounceSound.play()
     if ball.xcor() > 390:
         ball.goto(0, 0)
         ball.dx *= -1
         scoreA += 1
         pen.clear()
         pen.write('Player A: {}      Player B: {}'.format(scoreA, scoreB), align='center', font=('Courier', 24, 'normal'))
-        playPaddleBounceSound()
+        scoreSound.play()
     if ball.xcor() < -390:
         ball.goto(0, 0)
         ball.dx *= -1
         scoreB += 1
         pen.clear()
         pen.write('Player A: {}      Player B: {}'.format(scoreA, scoreB), align='center', font=('Courier', 24, 'normal'))
-        playPaddleBounceSound()
+        scoreSound.play()
 
 
 
@@ -141,8 +142,8 @@ while True:
     if (ball.xcor() > 340 and ball.xcor() < 350) and (ball.ycor() < paddleB.ycor() + 50 and ball.ycor() > paddleB.ycor() -50) :
         ball.setx(340)
         ball.dx *= -1
-        playScoreSound()
+        paddleBounceSound.play()
     if (ball.xcor() < -340 and ball.xcor() > -350) and (ball.ycor() < paddleA.ycor() + 50 and ball.ycor() > paddleA.ycor() -50) :
         ball.setx(-340)
         ball.dx *= -1
-        playScoreSound()
+        paddleBounceSound.play()
