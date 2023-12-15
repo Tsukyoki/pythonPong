@@ -4,6 +4,9 @@
 #Built with turtle; module that allows basic graphics
 import turtle
 import pygame
+import random
+import time
+
 pygame.init()
 pygame.mixer.init()
 turtle.speed('fastest')
@@ -26,7 +29,7 @@ scoreA = 0
 scoreB = 0
 # default shape size is 20px 20px
 # objects to add
-
+paddleSpeed = 0.4
 # paddle a
     # module.Class
 paddleA = turtle.Turtle()
@@ -94,6 +97,25 @@ def paddleBDown():
         y -= 20
     paddleB.sety(y)
 
+
+# AI movement function
+def aiMovement():
+    probability = random.uniform(0, 0.5)
+    moveProbability = probability
+    
+    
+    
+    if random.random() < moveProbability:
+        if ball.ycor() < paddleB.ycor():
+            paddleB.sety(paddleB.ycor() - paddleSpeed)
+        elif ball.ycor() > paddleB.ycor():
+            paddleB.sety(paddleB.ycor() + paddleSpeed)
+                        
+
+
+
+
+
 # Keyboard binding
 window.listen()
 window.onkeypress(paddleAUp, "w")
@@ -104,7 +126,9 @@ window.onkeypress(paddleBDown, "Down")
 while True:
     #updates screen when loop repeats
     window.update()
-
+    
+    aiMovement()
+    
     # move the ball
     # Ball starts at (0,0) then moves right 2 px(dx value)
     ball.setx(ball.xcor() + ball.dx)
